@@ -10,6 +10,16 @@ class FileReference extends BaseFileReference
     protected string $tablenames = '';
     protected string $fieldname = '';
 
+    public function getUidLocal(): int
+    {
+        return $this->uidLocal;
+    }
+
+    public function setUidLocal(int $uidLocal): void
+    {
+        $this->uidLocal = $uidLocal;
+    }
+
     public function getUidForeign(): int
     {
         return $this->uidForeign;

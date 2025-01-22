@@ -4,6 +4,7 @@ namespace Mfd\Ai\FileMetadata\Backend\Controller;
 
 use Mfd\Ai\FileMetadata\Api\OpenAiClient;
 use Mfd\Ai\FileMetadata\Domain\Model\FileMetadata;
+use Mfd\Ai\FileMetadata\Domain\Model\FileReference;
 use Mfd\Ai\FileMetadata\Domain\Repository\FileMetadataRepository;
 use Mfd\Ai\FileMetadata\Domain\Repository\FileReferenceRepository;
 use Psr\Http\Message\ResponseInterface;
@@ -11,6 +12,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Backend\Attribute\AsController;
 use TYPO3\CMS\Backend\Controller\AbstractFormEngineAjaxController;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\Resource\File;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -20,7 +23,9 @@ class AiGeneratedAltTextAjaxController extends AbstractFormEngineAjaxController
     public function __construct(
         private readonly OpenAiClient $openAiClient,
         private readonly FileMetadataRepository $fileMetadataRepository,
+        private readonly FileReferenceRepository $fileReferenceRepository,
         private readonly SiteFinder $siteFinder,
+        private readonly ResourceFactory $resourceFactory
     ) {
     }
 
@@ -52,6 +57,17 @@ class AiGeneratedAltTextAjaxController extends AbstractFormEngineAjaxController
 
             $file = $metadata->getFile();
             $altText = $this->openAiClient->buildAltText($file->getOriginalResource()->getContents(), $locale);
+
+            return new JsonResponse([
+                'text' => $altText,
+            ]);
+        } elseif ($tableName === 'sys_file_reference') {
+            /* @var FileReference */
+            $reference = $this->fileReferenceRepository->findByUid($recordId);
+
+            /* @var File */
+            $file = $this->resourceFactory->getFileObject($reference->getUidLocal());
+            $altText = $this->openAiClient->buildAltText($file->getContents(), $locale);
 
             return new JsonResponse([
                 'text' => $altText,

@@ -16,11 +16,18 @@ readonly class OpenAiClient
         $organizationId = $this->extensionConfiguration->get('ai_filemetadata', 'organizationId');
         $projectId = $this->extensionConfiguration->get('ai_filemetadata', 'projectId');
 
-        $this->openAiClient = OpenAI::factory()
-            ->withApiKey($apiKey)
-            ->withOrganization($organizationId)
-            ->withHttpHeader('OpenAI-Project', $projectId)
-            ->make();
+        try {
+            $this->openAiClient = OpenAI::factory()
+                ->withApiKey($apiKey)
+                ->withOrganization($organizationId)
+                ->withHttpHeader('OpenAI-Project', $projectId)
+                ->make();
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException(
+                sprintf('Open AI Error (%s): %s' , $e->getCode(), $e->getMessage()),
+                1775137045
+            );
+        }
     }
 
     public function buildAltText(string $image, ?string $locale = null): string
