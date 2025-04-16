@@ -3,7 +3,6 @@
 namespace Mfd\Ai\FileMetadata\Form\Element;
 
 use Mfd\Ai\FileMetadata\Backend\Controller\AiGeneratedAltTextAjaxController;
-use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\Element\InputTextElement;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
@@ -129,7 +128,7 @@ class AiGeneratedAltTextElement extends InputTextElement
         }
 
         if (!empty($config['placeholder'])) {
-            $attributes['placeholder'] = trim((string) $config['placeholder']);
+            $attributes['placeholder'] = trim((string)$config['placeholder']);
         }
 
         if (isset($config['autocomplete'])) {
@@ -153,7 +152,7 @@ class AiGeneratedAltTextElement extends InputTextElement
             $valuePickerHtml[] = '<select ' . GeneralUtility::implodeAttributes($valuePickerAttributes, true) . '>';
             $valuePickerHtml[] = '<option></option>';
             foreach ($config['valuePicker']['items'] as $item) {
-                $valuePickerHtml[] = '<option value="' . htmlspecialchars((string) $item[1]) . '">' . htmlspecialchars($languageService->sL($item[0])) . '</option>';
+                $valuePickerHtml[] = '<option value="' . htmlspecialchars((string)$item[1]) . '">' . htmlspecialchars($languageService->sL($item[0])) . '</option>';
             }
 
             $valuePickerHtml[] = '</select>';

@@ -29,7 +29,6 @@ class AiGeneratedAltTextAjaxController extends AbstractFormEngineAjaxController
     ) {
     }
 
-
     public function suggestAction(ServerRequestInterface $request): ResponseInterface
     {
         $this->checkRequest($request);
@@ -61,7 +60,8 @@ class AiGeneratedAltTextAjaxController extends AbstractFormEngineAjaxController
             return new JsonResponse([
                 'text' => $altText,
             ]);
-        } elseif ($tableName === 'sys_file_reference') {
+        }
+        if ($tableName === 'sys_file_reference') {
             /* @var FileReference */
             $reference = $this->fileReferenceRepository->findByUid($recordId);
 

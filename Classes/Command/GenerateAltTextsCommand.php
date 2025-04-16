@@ -6,7 +6,6 @@ use Mfd\Ai\FileMetadata\Api\OpenAiClient;
 use Mfd\Ai\FileMetadata\Sites\SiteLanguageProvider;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -35,7 +34,7 @@ class GenerateAltTextsCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addOption(
@@ -121,7 +120,7 @@ class GenerateAltTextsCommand extends Command
         return 0;
     }
 
-    private function localizeFile(File $file)
+    private function localizeFile(File $file): void
     {
         $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
 

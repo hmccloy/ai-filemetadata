@@ -24,7 +24,7 @@ readonly class OpenAiClient
                 ->make();
         } catch (\Exception $e) {
             throw new \InvalidArgumentException(
-                sprintf('Open AI Error (%s): %s' , $e->getCode(), $e->getMessage()),
+                sprintf('Open AI Error (%s): %s', $e->getCode(), $e->getMessage()),
                 1775137045
             );
         }
